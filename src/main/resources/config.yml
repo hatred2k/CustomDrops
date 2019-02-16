@@ -1,0 +1,38 @@
+# Don't touch this
+config_version: 1
+show_debug: true
+
+# Removes the default loot dropped by mobs (this only applies to mobs listed in the config)
+remove_default_loot: true
+
+# Add as many mobs as you want (be sure to follow the syntax)
+# Material types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
+# Mob types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+mobs:
+  SKELETON:
+    drops:
+      DIAMOND:
+        amount: 3
+      EMERALD:
+        amount: 3
+  COW:
+    drops:
+      DIAMOND_SWORD:
+        name: "&a&lGod Sword"
+        lore:
+        - "&bA sword fallen from the gods!"
+        amount: 1
+      GOLDEN_APPLE:
+        amount: 3
+  ZOMBIE:
+    drops:
+      IRON_INGOT:
+        amount: RANDOM
+        min: 1
+        max: 5
+      COAL:
+        amount: 1
+      PAPER:
+        amount: RANDOM
+        min: 1
+        max: 3

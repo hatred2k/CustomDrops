@@ -1,0 +1,9 @@
+name: CustomDrops
+version: ${project.version}
+main: me.hatred.customdrops.CustomDrops
+author: HatredPvP
+
+commands:
+  customdrops:
+    description: "Reference command for CustomDrops"
+    aliases: [cd]
