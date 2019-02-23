@@ -2,9 +2,15 @@ package me.hatred.customdrops.listener;
 
 import me.hatred.customdrops.CustomDrops;
 import me.hatred.customdrops.util.ItemBuilder;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentWrapper;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,10 +28,14 @@ public class MobListener implements Listener {
     @EventHandler
     public void onDeath(EntityDeathEvent e) {
         LivingEntity mob = e.getEntity();
+        if (!CustomDrops.getInstance().getConfig().getStringList("whitelisted_worlds").contains(mob.getWorld().getName())) {
+            return;
+        }
         if (!CustomDrops.getInstance().getConfig().getConfigurationSection("mobs").contains(mob.getName().toUpperCase())) {
             return;
         }
         ConfigurationSection defined = CustomDrops.getInstance().getConfig().getConfigurationSection("mobs." + mob.getName().toUpperCase() + ".drops");
+        ConfigurationSection cmd = CustomDrops.getInstance().getConfig().getConfigurationSection("mobs." + mob.getName().toUpperCase() + ".commands");
         if (CustomDrops.getInstance().getConfig().getBoolean("remove_default_loot")) {
             e.getDrops().clear();
         }
@@ -52,10 +62,20 @@ public class MobListener implements Listener {
                 ItemStack drop = new ItemBuilder(loot).toItemStack();
                 items.put(loot, drop);
             }
+            if (defined.contains(key+".enchantments")) {
+                ItemStack item = items.get(loot);
+                for (String ench : defined.getStringList(key+".enchantments")) {
+                    String actual = StringUtils.substringBefore(ench, ":");
+                    String level = StringUtils.substringAfter(ench, ":");
+                    //Enchantment enchantment = EnchantmentWrapper.getByKey(NamespacedKey.minecraft(actual));
+                    item.addUnsafeEnchantment(Enchantment.getByName(actual), Integer.parseInt(level));
+                }
+            }
             for (int i = 0; i < Integer.parseInt(amount); i++) {
                 mob.getLocation().getWorld().dropItem(mob.getLocation(), items.get(loot));
             }
         }
+        CustomDrops.runCommands(mob);
     }
 
     private List<String> colorize(List<String> list) {

@@ -1,5 +1,5 @@
 name: CustomDrops
-version: ${project.version}
+version: 1.2
 main: me.hatred.customdrops.CustomDrops
 author: HatredPvP
 

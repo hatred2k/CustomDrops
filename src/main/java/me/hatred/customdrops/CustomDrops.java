@@ -7,11 +7,11 @@ import me.hatred.customdrops.util.FileManager;
 import me.hatred.customdrops.util.LogUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 public final class CustomDrops extends JavaPlugin {
 
@@ -31,6 +31,7 @@ public final class CustomDrops extends JavaPlugin {
         LogUtils.log(LogUtils.Level.INFO, instance, "Enabling CustomDrops " + instance.getDescription().getVersion() + " by HatredPvP");
         LogUtils.log(LogUtils.Level.INFO, instance, "-------------------------------------");
         Bukkit.getPluginManager().registerEvents(new MobListener(), this);
+        newConfig();
     }
 
     @Override
@@ -70,5 +71,21 @@ public final class CustomDrops extends JavaPlugin {
         }
         String st = new String(ch);
         return st;
+    }
+
+    public static void runCommands(Entity mob) {
+        try {
+            for (String cmds : CustomDrops.getInstance().getConfig().getStringList("mobs." + mob.getName().toUpperCase() + ".commands")) {
+                Bukkit.getScheduler().runTask(CustomDrops.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmds));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void newConfig() {
+        if (!getConfig().getString("config_version").equalsIgnoreCase(instance.getDescription().getVersion())) {
+            LogUtils.log(LogUtils.Level.SEVERE, instance, "You are using config version " + getConfig().getString("config_version") + " while version " + instance.getDescription().getVersion() + " is out.");
+        }
     }
 }

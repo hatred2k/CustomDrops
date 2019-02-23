@@ -48,19 +48,9 @@ public class DropsCommand extends BaseCommand {
             } else if (args[0].equalsIgnoreCase("check") || args[0].equalsIgnoreCase("view")) {
                 sender.sendMessage(CustomDrops.color("&7[&aCustomDrops&7] &7Invalid syntax: &c/cd view <mob>"));
             } else if (args[0].equalsIgnoreCase("debug")) {
-                String test = "RANDOM{1:5}";
-                int firstIndex = test.indexOf("{");
-                int spacer = test.indexOf(":");
-                int first_number = spacer - firstIndex + 1;
-                Pattern patt = Pattern.compile("\\{\\d+\\}");
-                Matcher match = patt.matcher(test);
-                while(match.find()){
-                    System.out.println(match.group());
-                }
-                Random rand = new Random();
-                //char min = test.charAt(6+spacer);
-                char max = test.charAt(9);
-                System.out.print("First: " + firstIndex + "\nSpacer: " + spacer + "\nMin: " + first_number);
+                String repl = "DAMAGE_ALL:10";
+                String substring = repl.substring(repl.lastIndexOf(":") + 1);
+                System.out.println(substring);
             }
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("check") || args[0].equalsIgnoreCase("view")) {

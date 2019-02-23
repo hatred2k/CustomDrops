@@ -1,27 +1,42 @@
 # Don't touch this
-config_version: 1
+config_version: 1.2
 show_debug: true
 
 # Removes the default loot dropped by mobs (this only applies to mobs listed in the config)
 remove_default_loot: true
 
+# These are the worlds that the loot/drops are enabled in
+whitelisted_worlds:
+  - world
+  - spawn
+  - pvp
+
 # Add as many mobs as you want (be sure to follow the syntax)
 # Material types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 # Mob types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
+# Enchantment types can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html
 mobs:
   SKELETON:
+    commands:
+      - "broadcast A skeleton has left this world!"
     drops:
       DIAMOND:
         amount: 3
       EMERALD:
         amount: 3
   COW:
+    commands:
+      - "broadcast A cow has died!"
     drops:
       DIAMOND_SWORD:
         name: "&a&lGod Sword"
         lore:
         - "&bA sword fallen from the gods!"
         amount: 1
+        enchantments:
+          - "DAMAGE_ALL:5"
+          - "FIRE_ASPECT:2"
+          - "DURABILITY:10"
       GOLDEN_APPLE:
         amount: 3
   ZOMBIE:
