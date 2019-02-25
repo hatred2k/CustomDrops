@@ -47,10 +47,6 @@ public class DropsCommand extends BaseCommand {
                 sender.sendMessage(CustomDrops.color("&7[&aCustomDrops&7] &7Plugin reloaded!"));
             } else if (args[0].equalsIgnoreCase("check") || args[0].equalsIgnoreCase("view")) {
                 sender.sendMessage(CustomDrops.color("&7[&aCustomDrops&7] &7Invalid syntax: &c/cd view <mob>"));
-            } else if (args[0].equalsIgnoreCase("debug")) {
-                String repl = "DAMAGE_ALL:10";
-                String substring = repl.substring(repl.lastIndexOf(":") + 1);
-                System.out.println(substring);
             }
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("check") || args[0].equalsIgnoreCase("view")) {
